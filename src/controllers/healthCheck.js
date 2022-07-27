@@ -1,6 +1,6 @@
 const  healthCheck = {
     health: (req,res)=> {
-        res.sendStatus(200);
+        res.send(200).json({"message":"Healthcheck!"});
     }
 };
 
