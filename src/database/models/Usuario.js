@@ -1,4 +1,4 @@
-import db from '../database/index.js';
+import db from '../index.js';
 import { DataTypes } from 'sequelize';
 
 const Usuarios = db.define(

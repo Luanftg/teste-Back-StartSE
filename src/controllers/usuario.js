@@ -1,4 +1,4 @@
-import Usuarios from "../models/Usuario.js";
+import Usuarios from "../database/models/Usuario.js";
 
 const usuariosController = {
     listarUsuarios: async (req,res) => {

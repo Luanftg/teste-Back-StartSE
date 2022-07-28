@@ -1,4 +1,4 @@
-import db from '../database/index.js';
+import db from '../index.js';
 import { DataTypes } from 'sequelize';
 import Usuarios from './Usuario.js';
 
