@@ -1,23 +1,24 @@
 
 /*Função que calcula o Valor Futuro e Rendimento Total de determinado investimento, seja apenas com um aporte inicial, com aportes mensais, ou os dois juntos*/
-function pegaValorFuturoERendimentoTotal(aporteInicial, aportesMensais, taxaAoAno, prazoAno) {
+function pegaValorFuturoERendimentoTotal(aporteInicial, aportesMensais, taxaAoAno, prazoMeses) {
   /*Em sites normalmente taxa e prazo é mostrado Ao Ano, e os aportes de maneira mensal. Por isso temos que deixar todos em um mesmo equivalência, nesse caso ao mês*/
-  const prazoConvertidoAoMes = prazoAno * 12;
-  const taxaConvertidaAoMes = converteTaxaAnualParaMensal(taxaAoAno, prazoConvertidoAoMes);
+  //const prazoConvertidoAoMes = prazoAno * 12;
+  const taxaConvertidaAoMes = converteTaxaAnualParaMensal(taxaAoAno, prazoMeses);
 
-  console.log(aportesMensais);
+  //console.log(aportesMensais);
 
   /*O calculo dos aportes mensais e do aporte inicial é feito de maneira separada*/
-  const vFAM = valorFuturoDosAportesMensais(aportesMensais, taxaConvertidaAoMes, prazoConvertidoAoMes);
-  const vFAI = valorFuturoDoAporteInicial(aporteInicial, taxaConvertidaAoMes, prazoConvertidoAoMes);
+  const vFAM = valorFuturoDosAportesMensais(aportesMensais, taxaConvertidaAoMes, prazoMeses);
+  const vFAI = valorFuturoDoAporteInicial(aporteInicial, taxaConvertidaAoMes, prazoMeses);
 
   /*Ao final temos tanto o valor total do investimento, somando o rendimento tanto do aporte mensal quanto inicial, e o total de rendimentos dos dois*/
   const totalValorFuturo = vFAI + vFAM;
-  const rendimentoTotal = (vFAI - aporteInicial) + (vFAM - aportesMensais * prazoConvertidoAoMes);
+  const rendimentoTotal = (vFAI - aporteInicial) + (vFAM - aportesMensais * prazoMeses);
 
   /*A função retorna um objeto com os quatro valores como resultados do investimento, que podem ser usados de maneira individual*/
   return { valorFuturoDosAportesMensais: vFAM, valorFuturoDoAporteInicial: vFAI, totalValorFuturo, rendimentoTotal };
 }
+
 
 /*Função que calcula o Valor Futuro dos Aportes Mensais em um certo período*/
 function valorFuturoDosAportesMensais(aportesMensais, taxaAoMes, prazoAoMes) {
@@ -30,8 +31,8 @@ function valorFuturoDoAporteInicial(aporteInicial, taxaAoMes, prazoAoMes) {
 }
 
 /*Função que converte taxa anual para mensal*/
-function converteTaxaAnualParaMensal(taxaAnual, prazoMensal) {
-  return ((1 + (taxaAnual / 100)) ** (1 / prazoMensal) - 1) * 100
+function converteTaxaAnualParaMensal(taxaAnual) {
+  return ((1 + (taxaAnual / 100)) ** (1 / 12) - 1) * 100
 }
 
 /*Função calcula o IR de investimentos de Renda Fixa, passando o rendimento e o prazo que ficou investido*/
@@ -74,7 +75,8 @@ const simulacaoValorFuturo = {
   calculaIRPrevidênciaPrivada, 
   valorFuturoDosAportesMensais, 
   valorFuturoDoAporteInicial, 
-  converteTaxaAnualParaMensal
+  converteTaxaAnualParaMensal,
+  calculaIRRendaFixa
  };
 
 export default simulacaoValorFuturo;

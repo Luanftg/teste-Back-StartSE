@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const DB_NAME = "hackthon-startse";
-const DB_USER = "root";
+const DB_NAME = "heroku_3600fb901d3d34c";
+const DB_USER = "b95d4cfbb1648d";
 const DB_PASS = process.env.DB_PASS;
 const DB_CONFIG = {
     dialect: "mysql",

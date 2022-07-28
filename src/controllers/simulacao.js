@@ -6,40 +6,46 @@ import simulacaoValorFuturo from './aportes.js';
 const simulacaoController = {
     listarSimulacao: async (req,res) => {
         const listaDeSimulacao = await Simulacao.findAll({
-            include: Usuarios
-        }
+            include: Usuarios,
+        },
         );
         res.json(listaDeSimulacao);
     },
     
     async cadastrarSimulacao (req,res) {
-        const { aporteInicial, aporteMensal, taxaAA, anos, idUsuario } = req.body;
+        const { aporteInicial, aporteMensal, taxaAA, prazoMeses, idUsuario } = req.body;
         const resultAporteInicial = [];
         const resultAporteMensal = [];
         const resultSimulacao = [];
-        const prazoConvertidoAoMes = anos * 12;
-        const taxaAM = simulacaoValorFuturo.converteTaxaAnualParaMensal(taxaAA,prazoConvertidoAoMes);
+        const resultRendimento = [];
+        const resultIRFixa = [];
+       
+        const taxaAM = simulacaoValorFuturo.converteTaxaAnualParaMensal(taxaAA,12);
     
-        for (let i = 1;i<=prazoConvertidoAoMes;i++) {
+        for (let i = 0;i<=prazoMeses;i++) {
             let resultInicio = simulacaoValorFuturo.valorFuturoDoAporteInicial(aporteInicial,taxaAM,i);
             let resultMes = simulacaoValorFuturo.valorFuturoDosAportesMensais(aporteMensal,taxaAM,i);
-            let totalValorFuturo = simulacaoValorFuturo.pegaValorFuturoERendimentoTotal(aporteInicial,aporteMensal,taxaAA,anos);
+            let totalValorFuturo = simulacaoValorFuturo.pegaValorFuturoERendimentoTotal(aporteInicial,aporteMensal,taxaAA,i);
+            let rendimentoMes = totalValorFuturo.rendimentoTotal;
+            let impostoRFixa = simulacaoValorFuturo.calculaIRRendaFixa(rendimentoMes,i);
             resultAporteInicial.push(resultInicio);
             resultAporteMensal.push(resultMes);
-            resultSimulacao.push(totalValorFuturo);
+            resultSimulacao.push(totalValorFuturo.totalValorFuturo);
+            resultRendimento.push(rendimentoMes);
+            resultIRFixa.push(impostoRFixa);
         }
         
-        console.log(resultAporteInicial,resultAporteMensal, resultSimulacao);
+        console.log(resultAporteInicial,resultAporteMensal, resultSimulacao,resultRendimento,resultIRFixa);
 
         const novaSimulacao = await Simulacao.create({
             aporteInicial,
             aporteMensal,
             taxaAA,
-            anos,
+            prazoMeses,
             idUsuario,
         });
 
-        res.status(201).json({resultSimulacao,resultAporteInicial,resultAporteMensal,novaSimulacao});
+        res.status(201).json({novaSimulacao,resultSimulacao,resultAporteInicial,resultAporteMensal,resultRendimento,resultIRFixa});
         //res.status(201).json( {novaSimulacao,resultadoArrays});
     },
 
@@ -61,7 +67,7 @@ const simulacaoController = {
 
     async atualizaSimulacao (req,res) {
         const {id} = req.params;
-        const { aporteInicial, aporteMensal, taxaAA, anos, idUsuario } = req.body;
+        const { aporteInicial, aporteMensal, taxaAA, prazoMeses, idUsuario } = req.body;
 
         if (!id) return res.status(400).json('id não enviado.');
 
@@ -69,7 +75,7 @@ const simulacaoController = {
             aporteInicial,
             aporteMensal,
             taxaAA,
-            anos,
+            prazoMeses,
             idUsuario,
         });
 

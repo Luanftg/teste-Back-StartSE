@@ -19,11 +19,11 @@ const Simulacao = db.define(
         taxaAA: {
             type: DataTypes.DECIMAL,
         },
-        anos: {
+        prazoMeses: {
             type: DataTypes.INTEGER,
         },
         idUsuario: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             references: {
                 model: Usuarios,
                 key: "idUsuario",

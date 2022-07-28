@@ -3,7 +3,7 @@ import Usuarios from "../models/Usuario.js";
 const usuariosController = {
     listarUsuarios: async (req,res) => {
         const listaDeUsuarios = await Usuarios.findAll();
-        res.json(listaDeUsuarios);
+        res.json({listaDeUsuarios});
     },
     
     async cadastrarUsuarios (req,res) {
