@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import db from './database/index.js';
 import routes from './routes/index.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const HOST = 'localhost';
 
 db.hasConection()
 
+app.use(cors({origin: '*'}));
 app.use(express.json());
 app.use(routes);
 
