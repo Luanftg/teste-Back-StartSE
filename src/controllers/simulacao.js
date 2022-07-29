@@ -4,23 +4,19 @@ import Usuarios from '../database/models/Usuario.js';
 
 const simulacaoController = {
     listarSimulacao: async (req,res) => {
-        const listaDeSimulacao = await Simulacao.findAll({
-            include: Usuarios,
-        },
-        );
+        const listaDeSimulacao = await Simulacao.findAll();
         res.json(listaDeSimulacao);
     },
     
     async cadastrarSimulacao (req,res) {
-        const { aporteInicial, aporteMensal, taxaAA, prazoMeses, idUsuario } = req.body; 
+        const { aporteInicial, aporteMensal, taxaAA, prazoMeses } = req.body; 
     
-        // const novaSimulacao = await Simulacao.create({
-        //     aporteInicial,
-        //     aporteMensal,
-        //     taxaAA,
-        //     prazoMeses,
-        //     idUsuario,
-        // });
+        const novaSimulacao = await Simulacao.create({
+            aporteInicial,
+            aporteMensal,
+            taxaAA,
+            prazoMeses,
+        });
 
         const simulacao = SimulacaoAdapter.getSimulacao(aporteInicial, aporteMensal, taxaAA, prazoMeses);
         res.status(201).json(simulacao);

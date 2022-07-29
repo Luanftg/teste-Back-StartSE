@@ -22,13 +22,13 @@ const Simulacao = db.define(
         prazoMeses: {
             type: DataTypes.INTEGER,
         },
-        idUsuario: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Usuarios,
-                key: "idUsuario",
-            },
-        },
+        // idUsuario: {
+        //     type: DataTypes.INTEGER,
+        //     references: {
+        //         model: Usuarios,
+        //         key: "idUsuario",
+        //     },
+        //},
         createdAt: {
             type: DataTypes.DATE,
         },
