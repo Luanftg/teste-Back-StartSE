@@ -1,6 +1,5 @@
 import { SimulacaoAdapter } from '../adapters/SimulacaoAdapter.js';
 import Simulacao from '../database/models/index.js';
-import Usuarios from '../database/models/Usuario.js';
 
 const simulacaoController = {
     listarSimulacao: async (req,res) => {
