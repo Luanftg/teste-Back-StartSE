@@ -1,7 +1,6 @@
 import { SimulacaoAdapter } from '../adapters/SimulacaoAdapter.js';
 import Simulacao from '../database/models/index.js';
 import Usuarios from '../database/models/Usuario.js';
-import simulacaoValorFuturo from './aportes.js';
 
 const simulacaoController = {
     listarSimulacao: async (req,res) => {
@@ -15,13 +14,13 @@ const simulacaoController = {
     async cadastrarSimulacao (req,res) {
         const { aporteInicial, aporteMensal, taxaAA, prazoMeses, idUsuario } = req.body; 
     
-        // const novaSimulacao = await Simulacao.create({
-        //     aporteInicial,
-        //     aporteMensal,
-        //     taxaAA,
-        //     prazoMeses,
-        //     idUsuario,
-        // });
+        const novaSimulacao = await Simulacao.create({
+            aporteInicial,
+            aporteMensal,
+            taxaAA,
+            prazoMeses,
+            idUsuario,
+        });
 
         const simulacao = SimulacaoAdapter.getSimulacao(aporteInicial, aporteMensal, taxaAA, prazoMeses);
         res.status(201).json(simulacao);
